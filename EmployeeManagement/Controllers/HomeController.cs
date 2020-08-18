@@ -17,15 +17,15 @@ namespace EmployeeManagement.Controllers
             _employeeRepository = employeeRepository;
         }
 
-
-        public string Index()
+        public ViewResult Index()
         {
-            return _employeeRepository.GetEmployee(1).Name;
+            var model = _employeeRepository.GetAllEmployees();
+            return View(model);
         }
 
-        public ViewResult Details()
+        public ViewResult Details(int id=1)
         {
-            Employee model = _employeeRepository.GetEmployee(1);
+            Employee model = _employeeRepository.GetEmployee(id);
             HomeDetailsViewModel viewModel = new HomeDetailsViewModel()
             {
                 Employee = model,
@@ -33,6 +33,19 @@ namespace EmployeeManagement.Controllers
             };
             
             return View(viewModel);
+        }
+
+        [HttpGet]
+        public ViewResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public RedirectToActionResult Create(Employee employee)
+        {
+            Employee newEmployee = _employeeRepository.addEmployee(employee);
+            return RedirectToAction("details", new { id = newEmployee.Id });
         }
     }
 }
