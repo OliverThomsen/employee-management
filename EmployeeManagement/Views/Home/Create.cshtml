@@ -50,12 +50,11 @@
         @section Scripts {
             <script>
                 $(document).ready(() => {
-                    console.log("hello")
                     $('.custom-file-input').on('change', (file) => {
-                        console.log(file)
-                        var filename = $('.custom-file-input').val().split("\\").pop();
-                        console.log(filename)
-                        $(".custom-file-label").html(filename);
+                        let label
+                        const fileInput = $('.custom-file-input')[0];
+                        label = fileInput.files[0].name;
+                        $(".custom-file-label").html(label);
                     })
                     
                 })
